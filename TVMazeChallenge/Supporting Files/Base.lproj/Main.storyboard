@@ -10,16 +10,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--TV Maze-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TVMazeChallenge" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="HomeListVC" customModule="TVMazeChallenge" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YKP-xK-Yt8">
-                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
+                                <rect key="frame" x="14" y="117" width="365" height="715"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="0Z2-KJ-QkJ">
                                     <size key="itemSize" width="140" height="200"/>
@@ -28,14 +28,14 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="8Yk-yH-g1b">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="showCell" id="8Yk-yH-g1b" customClass="HomeListCell" customModule="TVMazeChallenge" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="140" height="200"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="zAj-hn-Eyy">
                                             <rect key="frame" x="0.0" y="0.0" width="140" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Okd-o0-Hup">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Okd-o0-Hup" customClass="DownloadImageView" customModule="TVMazeChallenge" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="140" height="200"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z8C-4l-01i">
@@ -58,6 +58,7 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="Z8C-4l-01i" firstAttribute="leading" secondItem="zAj-hn-Eyy" secondAttribute="leading" id="OQX-f8-VAG"/>
                                                 <constraint firstItem="Okd-o0-Hup" firstAttribute="leading" secondItem="zAj-hn-Eyy" secondAttribute="leading" id="Se7-Od-VLP"/>
@@ -69,6 +70,8 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
+                                            <outlet property="posterImageView" destination="Okd-o0-Hup" id="igW-xs-z2z"/>
+                                            <outlet property="showTitleLabel" destination="BFg-c6-Mg8" id="emR-Bp-CSg"/>
                                             <segue destination="ghb-hE-f7F" kind="show" id="Rf9-Ph-rzY"/>
                                         </connections>
                                     </collectionViewCell>
@@ -78,15 +81,18 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YKP-xK-Yt8" secondAttribute="trailing" id="4HI-IT-sB1"/>
-                            <constraint firstItem="YKP-xK-Yt8" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Jff-3G-7bd"/>
-                            <constraint firstItem="YKP-xK-Yt8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="KeS-dY-phR"/>
-                            <constraint firstItem="YKP-xK-Yt8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ZVo-E2-Ozq"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YKP-xK-Yt8" secondAttribute="trailing" constant="14" id="4HI-IT-sB1"/>
+                            <constraint firstItem="YKP-xK-Yt8" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="14" id="Jff-3G-7bd"/>
+                            <constraint firstItem="YKP-xK-Yt8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="14" id="KeS-dY-phR"/>
+                            <constraint firstItem="YKP-xK-Yt8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="14" id="ZVo-E2-Ozq"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Bxv-WJ-QJV">
+                    <navigationItem key="navigationItem" title="TV Maze" id="Bxv-WJ-QJV">
                         <barButtonItem key="backBarButtonItem" title="Home" id="AFh-Rj-XhS"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="YKP-xK-Yt8" id="DPE-SJ-0af"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

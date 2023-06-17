@@ -422,6 +422,7 @@
 				DEVELOPMENT_TEAM = 2E384GW2PK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TVMazeChallenge/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "TV Maze";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -454,6 +455,7 @@
 				DEVELOPMENT_TEAM = 2E384GW2PK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TVMazeChallenge/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "TV Maze";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

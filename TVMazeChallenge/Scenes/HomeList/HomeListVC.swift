@@ -164,7 +164,17 @@ extension HomeListVC: HomeListViewModelProtocol {
     }
     
     func erroFetch(message: String) {
-        print("error")
+        DispatchQueue.main.async {
+            var alert = UIAlertController()
+            if message != "" {
+                alert = UIAlertController(title: "Attention", message: message, preferredStyle: .alert)
+            } else {
+                alert = UIAlertController(title: "Attention", message: "Something went wrong, check your connection and try again in few moments!", preferredStyle: .alert)
+            }
+            let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            alert.addAction(action)
+            self.present(alert, animated: true)
+        }
     }
 }
 

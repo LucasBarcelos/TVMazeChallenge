@@ -13,8 +13,20 @@ class HomeListVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     // MARK: - Properties
-    var shows: [ShowsModel] = []
+    private var shows: [ShowsModel] = []
+    private var episodes: [Episodes] = []
+    private var filteredShows: [ShowsModel] = []
+    private var sortedShows : [ShowsModel] = []
+    
     private let homeListViewModel: HomeListViewModel = HomeListViewModel(serviceAPI: ShowServiceAPI())
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    private var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
+    }
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -23,34 +35,63 @@ class HomeListVC: UIViewController {
         self.homeListViewModel.serviceAPI?.fetchShow()
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+        
+        configureSearch()
+    }
+    
+    // MARK: - Methods
+    private func configureSearch() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.barTintColor = .white
+        
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
     }
 }
 
+// MARK: - Extension - Collection View Delegate / DataSource
 extension HomeListVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return shows.count
+        isFiltering ? filteredShows.count : shows.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "showCell", for: indexPath) as! HomeListCell
-        cell.setupCell(data: shows[indexPath.row])
+        
+        let show = isFiltering ? filteredShows[indexPath.item] : shows[indexPath.item]
+        
+        cell.setupCell(data: show)
+        
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let show = isFiltering ? filteredShows[indexPath.item] : shows[indexPath.item]
+        
+        self.homeListViewModel.serviceAPI?.fetchEpisodes(idShow: "\(show.id)")
+        
+        print("Show selected: \(show.name)")
+    }
 }
 
+// MARK: - Extension - Collection View Layout
 extension HomeListVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = (self.view.frame.size.width - 40) / 2
+        let width = (self.view.frame.size.width - 60) / 2
         let height = width * 1.4
         return CGSize(width: width, height: height)
     }
 }
 
+// MARK: - Extension - View Model Protocol
 extension HomeListVC: HomeListViewModelProtocol {
+
     func successGoToResult(result: [ShowsModel]?) {
         DispatchQueue.main.async {
             guard let shows = result else { return }
@@ -59,9 +100,30 @@ extension HomeListVC: HomeListViewModelProtocol {
         }
     }
     
+    func successEpisodes(result: [Episodes]?) {
+        DispatchQueue.main.async {
+            guard let episodes = result else { return }
+            self.episodes = episodes
+        }
+    }
+    
     func erroFetch(message: String) {
         DispatchQueue.main.async {
             print("error")
         }
+    }
+}
+
+// MARK: - Extension - Search Results Updating
+extension HomeListVC: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text ?? "")
+    }
+    
+    private func filterContentForSearchText(_ searchText: String) {
+        filteredShows = shows.filter { character in
+            character.name.lowercased().contains(searchText.lowercased())
+        }
+        collectionView.reloadData()
     }
 }

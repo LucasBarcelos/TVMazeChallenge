@@ -10,11 +10,12 @@ import UIKit
 
 protocol HomeListViewModelProtocol: AnyObject {
     func successGoToResult(result: [ShowsModel]?)
+    func successEpisodes(result: [Episodes]?)
     func erroFetch(message: String)
 }
 
 class HomeListViewModel: ShowServiceAPIProtocol {
-    
+
     weak var delegate:HomeListViewModelProtocol?
     let serviceAPI:ShowServiceAPI?
     
@@ -27,8 +28,12 @@ class HomeListViewModel: ShowServiceAPIProtocol {
         self.delegate = delegate
     }
     
-    func success(shows: [ShowsModel]) {
+    func successFetchShows(shows: [ShowsModel]) {
         self.delegate?.successGoToResult(result: shows)
+    }
+    
+    func successFetchEpisodes(eps: [Episodes]) {
+        self.delegate?.successEpisodes(result: eps)
     }
     
     func error(error: Error) {

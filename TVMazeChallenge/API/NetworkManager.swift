@@ -8,7 +8,8 @@
 import Foundation
 
 protocol ShowServiceAPIProtocol {
-    func success(shows: [ShowsModel])
+    func successFetchShows(shows: [ShowsModel])
+    func successFetchEpisodes(eps: [Episodes])
     func error(error: Error)
 }
 
@@ -26,9 +27,27 @@ class ShowServiceAPI{
             if let data = data {
                 do {
                     let json = try JSONDecoder().decode([ShowsModel].self, from: data)
-                    self.delegate?.success(shows: json)
+                    self.delegate?.successFetchShows(shows: json)
                 } catch {
                     print("Error - Show API")
+                    self.delegate?.error(error: error)
+                }
+            }
+        }
+        request.resume()
+    }
+    
+    public func fetchEpisodes(idShow: String) {
+        
+        guard let url = URL(string: BaseURLServices.fetchEpisodes.replacingOccurrences(of: "PARAM", with: idShow)) else { return }
+        
+        let request = URLSession.shared.dataTask(with: url){(data, response, error) in
+            if let data = data {
+                do {
+                    let json = try JSONDecoder().decode([Episodes].self, from: data)
+                    self.delegate?.successFetchEpisodes(eps: json)
+                } catch {
+                    print("Error - Episodes API")
                     self.delegate?.error(error: error)
                 }
             }

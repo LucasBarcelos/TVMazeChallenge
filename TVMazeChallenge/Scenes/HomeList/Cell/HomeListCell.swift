@@ -15,7 +15,7 @@ class HomeListCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
       
-        layer.cornerRadius = 10
+        layer.cornerRadius = 12
     }
     
     override func becomeFirstResponder() -> Bool {

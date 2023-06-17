@@ -11,4 +11,5 @@ class BaseURLServices {
     
     // Shows
     static let fetchShows: String = "https://api.tvmaze.com/shows"
+    static let fetchEpisodes: String = "https://api.tvmaze.com/shows/PARAM/episodes"
 }

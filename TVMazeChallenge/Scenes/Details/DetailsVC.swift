@@ -59,6 +59,17 @@ class DetailsVC: UIViewController {
             self.summaryTextView.textColor = UIColor.label
         }
     }
+    
+    // Mark: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "EpisodeDetailsVC") {
+            let vc = segue.destination as! EpisodeDetailsVC
+            
+            guard let result = sender as? Episodes else { return }
+            vc.selectedEpisode = result
+            vc.backgroundShowPoster = self.selectedShow?.image?.original ?? ""
+        }
+    }
 }
 
 extension DetailsVC: UITableViewDelegate, UITableViewDataSource {
@@ -89,5 +100,9 @@ extension DetailsVC: UITableViewDelegate, UITableViewDataSource {
         let view: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.bounds.size.width, height: 16))
         view.backgroundColor = .clear
         return view
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "EpisodeDetailsVC", sender: self.showEpisodes?[indexPath.section])
     }
 }

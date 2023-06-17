@@ -22,6 +22,7 @@
 		A26DD57F2A3CE80E00BEE4C3 /* HomeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DD57E2A3CE80E00BEE4C3 /* HomeListViewModel.swift */; };
 		A26DD5812A3D783800BEE4C3 /* DetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DD5802A3D783800BEE4C3 /* DetailsVC.swift */; };
 		A26DD5872A3DFBFC00BEE4C3 /* DetailsEpisodeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DD5862A3DFBFC00BEE4C3 /* DetailsEpisodeListCell.swift */; };
+		A26DD5892A3E0D3100BEE4C3 /* EpisodeDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DD5882A3E0D3100BEE4C3 /* EpisodeDetailsVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		A26DD57E2A3CE80E00BEE4C3 /* HomeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListViewModel.swift; sourceTree = "<group>"; };
 		A26DD5802A3D783800BEE4C3 /* DetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsVC.swift; sourceTree = "<group>"; };
 		A26DD5862A3DFBFC00BEE4C3 /* DetailsEpisodeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsEpisodeListCell.swift; sourceTree = "<group>"; };
+		A26DD5882A3E0D3100BEE4C3 /* EpisodeDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeDetailsVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +121,7 @@
 			children = (
 				A26DD56C2A3BE35100BEE4C3 /* HomeList */,
 				A26DD56D2A3BED7400BEE4C3 /* Details */,
-				A26DD5782A3CE2D800BEE4C3 /* Episodes */,
+				A26DD5782A3CE2D800BEE4C3 /* Episode */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -159,11 +161,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		A26DD5782A3CE2D800BEE4C3 /* Episodes */ = {
+		A26DD5782A3CE2D800BEE4C3 /* Episode */ = {
 			isa = PBXGroup;
 			children = (
+				A26DD5882A3E0D3100BEE4C3 /* EpisodeDetailsVC.swift */,
 			);
-			path = Episodes;
+			path = Episode;
 			sourceTree = "<group>";
 		};
 		A26DD57B2A3CE52300BEE4C3 /* Utils */ = {
@@ -259,6 +262,7 @@
 				A26DD57A2A3CE47500BEE4C3 /* HomeListCell.swift in Sources */,
 				A26DD5702A3CDA0F00BEE4C3 /* HomeListVC.swift in Sources */,
 				A26DD57D2A3CE52D00BEE4C3 /* DownloadImageView.swift in Sources */,
+				A26DD5892A3E0D3100BEE4C3 /* EpisodeDetailsVC.swift in Sources */,
 				A26DD5722A3CDB7300BEE4C3 /* BaseURLServices.swift in Sources */,
 				A26DD5772A3CDEB200BEE4C3 /* ShowsModel.swift in Sources */,
 				A26DD5552A3BC1C800BEE4C3 /* AppDelegate.swift in Sources */,

@@ -20,6 +20,7 @@ struct ShowsModel: Codable {
 
 struct Poster: Codable {
     let medium: String?
+    let original: String?
 }
 
 struct Schedule: Codable {
@@ -29,8 +30,8 @@ struct Schedule: Codable {
 
 struct Episodes: Codable {
     let name: String?
-    let number: String?
-    let season: String?
+    let number: Int?
+    let season: Int?
     let summary: String?
     let image: Poster?
 }

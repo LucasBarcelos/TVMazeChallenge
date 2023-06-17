@@ -14,7 +14,6 @@ class HomeListVC: UIViewController {
     
     // MARK: - Properties
     private var shows: [ShowsModel] = []
-    private var episodes: [Episodes] = []
     private var filteredShows: [ShowsModel] = []
     private var sortedShows : [ShowsModel] = []
     
@@ -49,6 +48,22 @@ class HomeListVC: UIViewController {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
+    }
+    
+    // Mark: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "DetailsVC") {
+            let vc = segue.destination as! DetailsVC
+            guard let indexPaths = collectionView.indexPathsForSelectedItems else { return }
+            
+            indexPaths.forEach { indexPath in
+                let show = isFiltering ? filteredShows[indexPath.item] : shows[indexPath.item]
+                vc.selectedShow = show
+            }
+            
+            guard let result = sender as? [Episodes] else { return }
+            vc.showEpisodes = result
+        }
     }
 }
 
@@ -102,8 +117,7 @@ extension HomeListVC: HomeListViewModelProtocol {
     
     func successEpisodes(result: [Episodes]?) {
         DispatchQueue.main.async {
-            guard let episodes = result else { return }
-            self.episodes = episodes
+            self.performSegue(withIdentifier: "DetailsVC", sender: result)
         }
     }
     

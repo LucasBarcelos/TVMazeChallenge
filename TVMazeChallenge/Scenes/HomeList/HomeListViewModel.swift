@@ -37,7 +37,7 @@ class HomeListViewModel: ShowServiceAPIProtocol {
     }
     
     func error(error: Error) {
-        print("Error - Show API")
+        print("Error - API")
         self.delegate?.erroFetch(message: String(error.localizedDescription))
     }
 }

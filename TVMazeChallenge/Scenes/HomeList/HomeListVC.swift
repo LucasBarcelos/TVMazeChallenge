@@ -16,10 +16,10 @@ class HomeListVC: UIViewController {
     private var shows: [ShowsModel] = []
     private var filteredShows: [ShowsModel] = []
     private var sortedShows : [ShowsModel] = []
+    let loadingView = LoadingView()
     
     private let homeListViewModel: HomeListViewModel = HomeListViewModel(serviceAPI: ShowServiceAPI())
     private let searchController = UISearchController(searchResultsController: nil)
-    private var activityIndicator: UIActivityIndicatorView!
     private var searchBarIsEmpty: Bool {
         guard let text = searchController.searchBar.text else { return false }
         return text.isEmpty
@@ -132,22 +132,16 @@ extension HomeListVC: UICollectionViewDelegateFlowLayout {
 extension HomeListVC: HomeListViewModelProtocol {
     
     func startLoading() {
-        DispatchQueue.main.async { [weak self] in
-            self?.activityIndicator = UIActivityIndicatorView(style: .large)
-            self?.activityIndicator.color = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-            self?.activityIndicator.startAnimating()
-            self?.activityIndicator.isHidden = false
-            self?.view.addSubview(self?.activityIndicator ?? UIActivityIndicatorView())
-            self?.view.isUserInteractionEnabled = false
-
+        DispatchQueue.main.async {
+            self.view.addSubview(self.loadingView)
+            self.view.isUserInteractionEnabled = false
         }
     }
     
     func stopLoading() {
-        DispatchQueue.main.async { [weak self] in
-            self?.activityIndicator.stopAnimating()
-            self?.activityIndicator.isHidden = true
-            self?.view.isUserInteractionEnabled = true
+        DispatchQueue.main.async {
+            self.loadingView.stopAnimating()
+            self.view.isUserInteractionEnabled = true
         }
     }
 
@@ -160,15 +154,17 @@ extension HomeListVC: HomeListViewModelProtocol {
     }
     
     func successEpisodes(result: [Episodes]?) {
-        DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "DetailsVC", sender: result)
+        DispatchQueue.global().async {
+            guard let result = result else { return }
+                
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "DetailsVC", sender: result)
+            }
         }
     }
     
     func erroFetch(message: String) {
-        DispatchQueue.main.async {
-            print("error")
-        }
+        print("error")
     }
 }
 

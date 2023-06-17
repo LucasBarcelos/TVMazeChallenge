@@ -19,10 +19,12 @@ class HomeListVC: UIViewController {
     
     private let homeListViewModel: HomeListViewModel = HomeListViewModel(serviceAPI: ShowServiceAPI())
     private let searchController = UISearchController(searchResultsController: nil)
+    private var activityIndicator: UIActivityIndicatorView!
     private var searchBarIsEmpty: Bool {
         guard let text = searchController.searchBar.text else { return false }
         return text.isEmpty
     }
+    
     private var isFiltering: Bool {
         return searchController.isActive && !searchBarIsEmpty
     }
@@ -31,11 +33,12 @@ class HomeListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.homeListViewModel.delegate(delegate: self)
-        self.homeListViewModel.serviceAPI?.fetchShow()
+        self.homeListViewModel.viewDidLoad()
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         
         configureSearch()
+        setupSortShows()
     }
     
     // MARK: - Methods
@@ -48,6 +51,26 @@ class HomeListVC: UIViewController {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
+    }
+    
+    private func setupSortShows() {
+        let showAtoZ = UIAction(title: "A - Z") { [weak self] _ in
+            self?.shows.sort { $0.name < $1.name }
+            self?.collectionView.reloadData()
+        }
+        
+        let showZtoA = UIAction(title: "Z - A") { [weak self] _ in
+            self?.shows.sort { $0.name > $1.name }
+            self?.collectionView.reloadData()
+        }
+        
+        let showDefault = UIAction(title: "Default") { [weak self] _ in
+            self?.shows.sort { $0.id < $1.id }
+            self?.collectionView.reloadData()
+        }
+        
+        let menuItem = UIMenu(children: [showAtoZ, showZtoA, showDefault])
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sort", menu: menuItem)
     }
     
     // Mark: - Navigation
@@ -88,6 +111,7 @@ extension HomeListVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let show = isFiltering ? filteredShows[indexPath.item] : shows[indexPath.item]
         
+        self.homeListViewModel.delegate?.startLoading()
         self.homeListViewModel.serviceAPI?.fetchEpisodes(idShow: "\(show.id)")
         
         print("Show selected: \(show.name)")
@@ -106,6 +130,26 @@ extension HomeListVC: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Extension - View Model Protocol
 extension HomeListVC: HomeListViewModelProtocol {
+    
+    func startLoading() {
+        DispatchQueue.main.async { [weak self] in
+            self?.activityIndicator = UIActivityIndicatorView(style: .large)
+            self?.activityIndicator.color = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+            self?.activityIndicator.startAnimating()
+            self?.activityIndicator.isHidden = false
+            self?.view.addSubview(self?.activityIndicator ?? UIActivityIndicatorView())
+            self?.view.isUserInteractionEnabled = false
+
+        }
+    }
+    
+    func stopLoading() {
+        DispatchQueue.main.async { [weak self] in
+            self?.activityIndicator.stopAnimating()
+            self?.activityIndicator.isHidden = true
+            self?.view.isUserInteractionEnabled = true
+        }
+    }
 
     func successGoToResult(result: [ShowsModel]?) {
         DispatchQueue.main.async {
